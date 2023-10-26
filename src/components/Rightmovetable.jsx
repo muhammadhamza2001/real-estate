@@ -1,12 +1,35 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Image, Popover, Skeleton, Table, Typography } from 'antd';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
+import { PaperClipOutlined } from '@ant-design/icons';
+
+
+
 
 const data = [
     {
         title: 'id',
-        dataIndex: 'id',
+        dataIndex: 'property_id',
         key: 'id',
-       
+
+    },
+    {
+        title: 'image',
+
+        key: 'image',
+        render: (item) => {
+            return (
+                <>
+                   
+                        <Image width={100}
+                            src={item.image} />
+                </>
+            )
+        }
+
+
     },
     {
         title: 'bedrooms',
@@ -15,64 +38,92 @@ const data = [
     },
     {
         title: 'Bathrooms',
-        dataIndex: 'Bathrooms',
-        key: 'Bathrooms',
+        dataIndex: 'bathrooms',
+        key: 'bathrooms',
     },
     {
         title: 'Display Address',
-        dataIndex: 'Display Address',
-        key: 'Display Address',
+        dataIndex: 'displayAddress',
+        key: 'displayAddress',
     },
     {
         title: 'Property Sub Type',
-        dataIndex: 'Property Sub Type',
-        key: 'Property Sub Type',
+        dataIndex: 'propertySubType',
+        key: 'propertySubType',
     },
     {
         title: 'Price',
-        dataIndex: 'Price',
-        key: 'Price',
+        dataIndex: 'price',
+        key: 'price',
     },
     {
         title: 'Property URL',
-        dataIndex: 'Property URL',
-        key: 'Property URL',
+
+        key: 'propertyUrl',
+        render: (item) => <Link to={item.propertyUrl} target='_blank' rel="noreferrer"><PaperClipOutlined /><span>Link</span></Link>,
     },
     {
         title: 'First Visible Date',
-        dataIndex: 'First Visible Date',
-        key: 'First Visible Date',
+        dataIndex: 'firstVisibleDate',
+        key: 'firstVisibleDate',
     },
     {
         title: 'Property Full Description',
-        dataIndex: 'Property Full Description',
-        key: 'Property Full Description',
+        dataIndex: 'propertyTypeFullDescription',
+        key: 'propertyTypeFullDescription',
     },
     {
         title: 'Added Or Reduced',
-        dataIndex: 'Added Or Reduced',
-        key: 'Added Or Reduced',
+        dataIndex: 'addedOrReduced',
+        key: 'addedOrReduced',
     },
     {
         title: 'Phone Number',
-        dataIndex: 'Phone Number',
-        key: 'Phone Number',
+        dataIndex: 'phoneNumber',
+        key: 'phoneNumber',
     },
     {
         title: 'Branch Display Name',
-        dataIndex: 'Branch Display Name',
-        key: 'Branch Display Name',
+        dataIndex: 'branchDisplayName',
+        key: 'branchDisplayName',
     },
     {
         title: 'Area',
-        dataIndex: 'Area',
+
         key: 'Area',
+        render: (item) => <Typography.Text>{item.area.name}</Typography.Text>,
     },
     {
         title: 'Zip',
-        dataIndex: 'Zip',
+
         key: 'Zip',
+        render: (item) => <Typography.Text>{item.area.zip}</Typography.Text>,
     },
 ];
-const Rightmovetable = () => <Table columns={data} dataSource={[]} />;
+
+
+const Rightmovetable = () => {
+    const tabledata = useQuery('rightmove', async () => {
+        return axios.get('http://192.168.20.130:8000/api/rightmove/properties/');
+    });
+
+    const right_move_table_data = tabledata?.data?.data
+
+   
+
+    if (tabledata.isLoading) {
+        return <Skeleton />
+    }
+
+    return (
+        <>
+            <div style={{ overflow: "auto" }}>
+
+                <Table rowKey="id" columns={data} dataSource={right_move_table_data} />
+            </div>
+
+        </>
+    )
+
+}
 export default Rightmovetable;
