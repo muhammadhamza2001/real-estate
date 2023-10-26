@@ -1,13 +1,13 @@
 import React from 'react'
 import { Routes, Route } from "react-router-dom"
-import Home from './pages/Home'
 import About from './pages/About'
+import RightMove from './pages/RightMove'
 const Routespath = () => {
     return (
         <>
 
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<RightMove />} />
                 <Route path="/about" element={<About />} />
             </Routes>
         </>

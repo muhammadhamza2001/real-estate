@@ -15,7 +15,7 @@ const TopNavbar = () => {
                 Your Company Name
             </Menu.Item>
             <Menu.Item key="home" icon={<HomeOutlined />}>
-                <Link to="/">Home</Link>
+                <Link to="/">Right Move</Link>
             </Menu.Item>
             <Menu.Item key="about" icon={<AppstoreAddOutlined />}>
             <Link to="/about">About</Link>
